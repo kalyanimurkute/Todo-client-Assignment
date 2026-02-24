@@ -19,14 +19,14 @@ const [newTodo, setNewTodo]=useState("");
 };
 
 const addTodo=async()=>{
-  const response= await axios.post("http://localhost:8030/todo",{
+  const response= await axios.post(`${BASE_URL}/todo`,{
    item:newTodo,
   });
   setNewTodo("");
   loadtodo();
 };
 const editTodo=async()=>{
-  const response= await axios.put("http://localhost:8030/todo",{
+  const response= await axios.put(`${BASE_URL}/todo`,{
    oldItem:oldItem,
    newItem:newTodo,
   });
@@ -36,7 +36,7 @@ const editTodo=async()=>{
   oldItem("");
 };
 const deleteTodo=async(item)=>{
-  const response= await axios.delete("http://localhost:8030/todo",{
+  const response= await axios.delete(`${BASE_URL}/todo`,{
    data: {item:item},
   });
     loadtodo();
