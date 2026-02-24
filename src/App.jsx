@@ -10,10 +10,10 @@ const [todo, setTodo]=useState([]);
 const[oldItem, setOldTodo]=useState("");
 const [editmode, setEditmode]=useState(false);
 const [newTodo, setNewTodo]=useState("");
-
+ const BASE_URL="https://todo-client-assignment.onrender.com";
   const loadtodo=async()=>{
   console.log("load todo");
- const response= await axios.get("http://localhost:8030/todo");
+ const response= await axios.get(BASE_URL+"/todo");
  setTodo(response.data.data);
 
 };
