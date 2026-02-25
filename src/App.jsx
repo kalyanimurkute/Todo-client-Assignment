@@ -10,33 +10,32 @@ const [todo, setTodo]=useState([]);
 const[oldItem, setOldTodo]=useState("");
 const [editmode, setEditmode]=useState(false);
 const [newTodo, setNewTodo]=useState("");
- const BASE_URL="https://todo-client-assignment.onrender.com";
   const loadtodo=async()=>{
   console.log("load todo");
- const response= await axios.get(BASE_URL+"/todo");
- setTodo(response.data.data);
-
-};
+ const response= await axios.get("http://localhost:8030/todo");
+ const data = response?.data?.data ?? response?.data ?? [];
+ setTodo(Array.isArray(data) ? data : []);
+ };
 
 const addTodo=async()=>{
-  const response= await axios.post(`${BASE_URL}/todo`,{
+  const response= await axios.post("http://localhost:8030/todo",{
    item:newTodo,
   });
   setNewTodo("");
   loadtodo();
 };
 const editTodo=async()=>{
-  const response= await axios.put(`${BASE_URL}/todo`,{
+  const response= await axios.put("http://localhost:8030/todo",{
    oldItem:oldItem,
    newItem:newTodo,
   });
   loadtodo();
   setEditmode(false);
   setNewTodo("");
-  oldItem("");
+  setOldTodo("");
 };
 const deleteTodo=async(item)=>{
-  const response= await axios.delete(`${BASE_URL}/todo`,{
+  const response= await axios.delete("http://localhost:8030/todo",{
    data: {item:item},
   });
     loadtodo();
@@ -50,19 +49,20 @@ const deleteTodo=async(item)=>{
       <p className='header'>{editmode ? "Edit ToDO" : "Add TODO"}</p>
       <div className='todo'>
       <div className='todo-container'>
-      {todo.map((todos, index)=>{
+      {todo.map((t, index)=>{
+        const text = typeof t === 'string' ? t : (t?.item ?? t?.todo ?? t?.text ?? '');
         return(
           <div key={index} className='todo-card'>
-            <p>{todos}</p>
+            <p>{text}</p>
             <div>
             <img src={imgEdit} alt="edit" className='edit-icon'
             onClick={()=>{setEditmode(true);
-              setOldTodo(todos);
-              setNewTodo(todos);
+              setOldTodo(text);
+              setNewTodo(text);
             }}
             />
             <img src={imgDelete} alt="delete" className='delete-icon'
-            onClick={()=>deleteTodo(todos)}
+            onClick={()=>deleteTodo(text)}
             />
 
             </div>
