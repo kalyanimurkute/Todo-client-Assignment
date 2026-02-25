@@ -10,22 +10,23 @@ const [todo, setTodo]=useState([]);
 const[oldItem, setOldTodo]=useState("");
 const [editmode, setEditmode]=useState(false);
 const [newTodo, setNewTodo]=useState("");
+const BASE_URL="https://todo-server-1-gmfg.onrender.com";
   const loadtodo=async()=>{
   console.log("load todo");
- const response= await axios.get("http://localhost:8030/todo");
+ const response= await axios.get(`${BASE_URL}/todo`);
  const data = response?.data?.data ?? response?.data ?? [];
  setTodo(Array.isArray(data) ? data : []);
  };
 
 const addTodo=async()=>{
-  const response= await axios.post("http://localhost:8030/todo",{
+  const response= await axios.post(`${BASE_URL}/todo`,{
    item:newTodo,
   });
   setNewTodo("");
   loadtodo();
 };
 const editTodo=async()=>{
-  const response= await axios.put("http://localhost:8030/todo",{
+  const response= await axios.put(`${BASE_URL}/todo`,{
    oldItem:oldItem,
    newItem:newTodo,
   });
@@ -35,7 +36,7 @@ const editTodo=async()=>{
   setOldTodo("");
 };
 const deleteTodo=async(item)=>{
-  const response= await axios.delete("http://localhost:8030/todo",{
+  const response= await axios.delete(`${BASE_URL}/todo`,{
    data: {item:item},
   });
     loadtodo();
