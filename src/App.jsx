@@ -10,7 +10,7 @@ const [todo, setTodo]=useState([]);
 const[oldItem, setOldTodo]=useState("");
 const [editmode, setEditmode]=useState(false);
 const [newTodo, setNewTodo]=useState("");
-const BASE_URL="https://todo-server-1-gmfg.onrender.com";
+const BASE_URL=import.meta.env.VITE_BASE_URL;
   const loadtodo=async()=>{
   console.log("load todo");
  const response= await axios.get(`${BASE_URL}/todo`);
